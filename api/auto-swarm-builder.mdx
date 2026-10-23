@@ -56,14 +56,6 @@ from swarms import AutoSwarmBuilder
   Additional arguments to pass to the LiteLLM wrapper
 </ParamField>
 
-<ParamField path="auto_execute" type="bool" default="False">
-  Default value for `run()`'s `execute` parameter. When `True`, `run()` builds real `Agent` objects from a freshly generated spec and executes them through a `SwarmRouter` (via `build_and_run_swarm()`) instead of returning a spec-only result
-</ParamField>
-
-### Attributes you can set after construction
-
-These are not constructor arguments. Set them on the instance before calling `run()`.
-
 <ParamField path="max_agents" type="Optional[int]" default="None">
   Upper bound on how many agents the boss agent may generate. A larger roster raises `ValueError`. Unbounded when `None`
 </ParamField>
@@ -72,10 +64,16 @@ These are not constructor arguments. Set them on the instance before calling `ru
   Number of repair retries when the boss agent's reply is malformed JSON or fails schema validation
 </ParamField>
 
+<ParamField path="auto_execute" type="bool" default="False">
+  Default value for `run()`'s `execute` parameter. When `True`, `run()` builds real `Agent` objects from a freshly generated spec and executes them through a `SwarmRouter` (via `build_and_run_swarm()`) instead of returning a spec-only result
+</ParamField>
+
 ```python
-builder = AutoSwarmBuilder(swarm_type="return-agents")
-builder.max_agents = 4
-builder.max_json_repair_attempts = 2
+builder = AutoSwarmBuilder(
+    swarm_type="return-agents",
+    max_agents=4,
+    max_json_repair_attempts=2,
+)
 ```
 
 ## Execution Types

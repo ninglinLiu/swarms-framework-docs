@@ -147,10 +147,6 @@ workflow = SequentialWorkflow(
   Enable verbose logging
 </ParamField>
 
-<ParamField path="shared_memory_system" type="callable" default="None">
-  Accepted and stored on the instance, but never read during execution — it is not wired into the underlying `AgentRearrange` or into any agent. Use `persistent_memory=True` on individual agents if you need memory that survives across runs.
-</ParamField>
-
 ## Methods
 
 ### run()

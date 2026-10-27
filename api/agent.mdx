@@ -819,14 +819,6 @@ def to_yaml(
 ) -> str
 ```
 
-### to_toml
-
-Convert agent configuration to TOML string. Extra arguments go to `toml.dumps`.
-
-```python
-def to_toml(*args, **kwargs) -> str
-```
-
 ### model_dump_json / model_dump_yaml
 
 Save the agent configuration to `{agent_name}.json` or `{agent_name}.yaml` in the agent workspace, and return a message naming the path.
@@ -1069,7 +1061,6 @@ Every public method on `Agent`. Tool-handling methods now live on `agent.tool_ma
 | `to_dict()` | Convert to dictionary | `agent.to_dict()` |
 | `to_json(indent)` | Convert to JSON string | `agent.to_json()` |
 | `to_yaml(indent)` | Convert to YAML string | `agent.to_yaml()` |
-| `to_toml()` | Convert to TOML string | `agent.to_toml()` |
 | `model_dump_json()` | Save config to `{agent_name}.json` in the workspace | `agent.model_dump_json()` |
 | `model_dump_yaml()` | Save config to `{agent_name}.yaml` in the workspace | `agent.model_dump_yaml()` |
 | `get_saveable_state()` | The values `save` would write | `agent.get_saveable_state()` |
@@ -2168,7 +2159,6 @@ from swarms import Agent
 agent = Agent(agent_name="Settings-Agent", model_name="gpt-5.4", max_loops=1)
 
 print(agent.to_dict())
-print(agent.to_toml())
 print(agent.model_dump_json())
 print(agent.model_dump_yaml())
 

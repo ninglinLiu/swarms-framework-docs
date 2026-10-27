@@ -36,7 +36,6 @@ class AgentRearrange:
         flow: str = None,
         max_loops: int = 1,
         verbose: bool = False,
-        memory_system: Any = None,
         output_type: OutputType = "all",
         autosave: bool = True,
         team_awareness: bool = False,
@@ -79,10 +78,6 @@ class AgentRearrange:
 
 <ParamField path="verbose" type="bool" default="False">
   Whether to enable verbose logging
-</ParamField>
-
-<ParamField path="memory_system" type="Any" default="None">
-  Accepted for backwards compatibility. The value is stored on the instance and is not read by the workflow. Configure memory on the individual agents with `persistent_memory` instead.
 </ParamField>
 
 <ParamField path="output_type" type="OutputType" default="all">
@@ -565,9 +560,8 @@ except Exception as e:
 2. **Team Awareness**: Enable for complex flows where context matters
 3. **Error Handling**: Always wrap execution in try-except blocks
 4. **Logging**: Enable verbose mode during development
-5. **Memory**: `memory_system` is not read; set `persistent_memory=True` on individual agents for context that survives restarts
-6. **Flow Validation**: Call `validate_flow()` or `explain()` before production use, since construction does not check agent names
-7. **Agent Naming**: Use clear, descriptive agent names in flows
+5. **Flow Validation**: Call `validate_flow()` or `explain()` before production use, since construction does not check agent names
+6. **Agent Naming**: Use clear, descriptive agent names in flows
 
 ## Common Flow Patterns
 

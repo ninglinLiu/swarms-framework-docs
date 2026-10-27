@@ -126,10 +126,6 @@ rearrange = AgentRearrange(
   Output format, for example `"all"`, `"final"`, `"list"`, `"dict"` or `"str-all-except-first"`. An unknown value raises `ValueError` at construction.
 </ParamField>
 
-<ParamField path="memory_system" type="Any" default="None">
-  Accepted for backwards compatibility and stored, but never read. Use `persistent_memory=True` on individual agents instead.
-</ParamField>
-
 <ParamField path="verbose" type="bool" default="False">
   Log every flow step and agent transition. Pass `verbose=True` while debugging a flow.
 </ParamField>

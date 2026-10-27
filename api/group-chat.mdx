@@ -18,7 +18,7 @@ The chat ends when either:
 Every call to `run` starts from an empty conversation, so you can reuse one `GroupChat` instance for unrelated tasks without the previous transcript leaking in.
 
 <Note>
-  This replaces the older speaker-function design. Parameters and methods such as `speaker_function`, `speaker_state`, `set_speaker_function`, `start_interactive_session`, `@mention` routing, and the `round-robin-speaker` / `random-speaker` / `priority-speaker` selectors **no longer exist**. The current API is the turn-based, bid/threshold model documented below. Note also that `idle_timeout` is accepted for backward compatibility but is **not** used to end the chat — see below.
+  This replaces the older speaker-function design. Parameters and methods such as `speaker_function`, `speaker_state`, `set_speaker_function`, `start_interactive_session`, `@mention` routing, and the `round-robin-speaker` / `random-speaker` / `priority-speaker` selectors **no longer exist**. The current API is the turn-based, bid/threshold model documented below.
 </Note>
 
 ## Import
@@ -40,7 +40,6 @@ GroupChat(
     threshold: float = 0.5,
     recency_penalty: float = 0.3,
     recency_window: int = 1,
-    idle_timeout: float = 8.0,
     output_type: str = "str-all-except-first",
     verbose: bool = False,
     auto_equip: bool = True,
@@ -73,10 +72,6 @@ GroupChat(
 
 <ParamField path="recency_window" type="int" default="1">
   How many of the most recent speakers are subject to `recency_penalty`.
-</ParamField>
-
-<ParamField path="idle_timeout" type="float" default="8.0">
-  Accepted for backward compatibility only. **Not used** to end the chat in the current implementation — the chat now ends on a bidding lull (no agent clears `threshold` on a turn) rather than a wall-clock timeout.
 </ParamField>
 
 <ParamField path="output_type" type="str" default="str-all-except-first">
@@ -265,14 +260,13 @@ result = chat.run("Discuss the tradeoffs of autonomous multi-agent systems.")
 2. **Bid** — each turn, every agent is run concurrently (via `asyncio.gather` + `asyncio.to_thread`, so one slow model call never stalls the turn) and forced through the `respond` tool to return a `(score, message)` bid. Each agent receives the shared conversation as typed turns plus the decision prompt described in [How agents decide](#how-agents-decide).
 3. **Select** — the highest bid wins, after subtracting `recency_penalty` from any agent that spoke within the last `recency_window` turns. Bids with an empty message never win, and the turn ends with no winner if no adjusted score clears `threshold`.
 4. **Post** — only the winning agent's reply is appended to the shared conversation; every other bid from that turn is discarded. All agents see the new message as context on the next turn.
-5. **Stop** — the chat ends when `max_loops` messages have been posted, or a turn passes with no bid clearing `threshold` (a conversational lull), and the formatted transcript is returned. `idle_timeout` is accepted for backward compatibility but no longer used to end the chat.
+5. **Stop** — the chat ends when `max_loops` messages have been posted, or a turn passes with no bid clearing `threshold` (a conversational lull), and the formatted transcript is returned.
 
 ## Tuning
 
 - **`threshold`** — higher means fewer turns get a winning bid (more lulls, shorter chats); lower means livelier back-and-forth.
 - **`recency_penalty`** / **`recency_window`** — control how strongly a recent speaker's next bid is discounted so the floor rotates instead of one agent dominating every turn. Set `recency_penalty=0.0` to disable.
 - **`max_loops`** — the hard ceiling on total messages; the primary cost control.
-- **`idle_timeout`** — accepted for backward compatibility only; it does **not** end the chat in the current implementation (the chat stops on a bidding lull instead of a wall-clock timeout).
 - **`max_loops=1` per agent** — give each participating `Agent` `max_loops=1` and `persistent_memory=False` so each speaking decision is a clean, single-shot call.
 
 ## Notes

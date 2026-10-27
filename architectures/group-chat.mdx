@@ -25,10 +25,6 @@ description: A turn-based, self-selecting multi-agent conversation for debate, b
 4. **Recency penalty** — an agent that spoke within the last `recency_window` turns has `recency_penalty` subtracted from its bid, so the floor tends to move around the room instead of one agent monologuing.
 5. **Stop** — the chat ends when `max_loops` total messages have been posted, or a turn arrives where no agent's adjusted bid clears `threshold` (a conversational lull).
 
-<Note>
-  `idle_timeout` is accepted for backward compatibility but is currently unused — the chat stops on a bidding lull (step 5 above), not a wall-clock timeout.
-</Note>
-
 ## Key Features
 
 - Turn-based self-selection: bids are collected in parallel, but exactly one agent speaks per turn (no fixed speaking order)
@@ -143,10 +139,6 @@ quick = GroupChat(agents=[proponent, opponent], max_loops=6)
 
 <ParamField path="recency_window" type="int" default="1">
   How many of the most recent speakers are subject to `recency_penalty`.
-</ParamField>
-
-<ParamField path="idle_timeout" type="float" default="8.0">
-  Accepted for backward compatibility but currently **unused** — the chat now stops on a bidding lull (no agent clears `threshold`) rather than a wall-clock timeout.
 </ParamField>
 
 <ParamField path="output_type" type="str" default="str-all-except-first">

@@ -171,7 +171,7 @@ These are only consulted when the corresponding `swarm_type` is selected.
 
 #### GroupChat
 
-`GroupChat` is asynchronous and self-selecting — there are **no speaker-selection functions**. The router passes `agents`, `max_loops`, `output_type`, and `verbose` through to it; agents decide on their own whether to speak. See the [GroupChat API reference](/api/group-chat) for `threshold` / `idle_timeout` tuning (configure those by constructing the `GroupChat` directly).
+`GroupChat` is asynchronous and self-selecting — there are **no speaker-selection functions**. The router passes `agents`, `max_loops`, `output_type`, and `verbose` through to it; agents decide on their own whether to speak. See the [GroupChat API reference](/api/group-chat) for `threshold` / `recency_penalty` tuning (configure those by constructing the `GroupChat` directly).
 
 #### HeavySwarm
 

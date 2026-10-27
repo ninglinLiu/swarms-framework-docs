@@ -38,8 +38,6 @@ description: Learn how to run a turn-based, self-selecting agent groupchat for d
 | `verbose` | Log internals and print each posted message as a panel. Default `False`. |
 | `auto_equip` | Auto-inject the `respond` tool into agents that lack it. Default `True`. |
 
-`idle_timeout` is still accepted for compatibility but is unused: the chat now ends on a bidding lull, not a wall-clock timeout.
-
 ## Basic Example: Tech Debate
 
 A two-sided debate about AI's societal impact. Each agent uses `max_loops=1` and `persistent_memory=False` so every speaking decision is a clean single-shot call.

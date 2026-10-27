@@ -510,7 +510,6 @@ def run(
     task: Optional[Union[str, Any]] = None,
     img: Optional[str] = None,
     imgs: Optional[List[str]] = None,
-    correct_answer: Optional[str] = None,
     streaming_callback: Optional[Callable[[str], None]] = None,
     n: int = 1,
     messages: Optional[List[Dict[str, Any]]] = None,
@@ -533,10 +532,6 @@ def run(
   <Warning>
     In this release `img` and `imgs` reach the model only when the agent was built with `transforms`. On the default path the agent sends its structured message transcript, and the LiteLLM wrapper does not attach images to a prebuilt message list, so the image is silently dropped. The autonomous loop has the same limitation. Until this is fixed, build vision agents with `transforms=TransformConfig()` (from `swarms.structs.transforms`), which sends the history as text plus the image.
   </Warning>
-</ParamField>
-
-<ParamField path="correct_answer" type="str">
-  Accepted for compatibility but not used to check the output. It is only forwarded to fallback-model runs.
 </ParamField>
 
 <ParamField path="streaming_callback" type="Callable[[str], None]">
@@ -1051,7 +1046,7 @@ Every public method on `Agent`. Tool-handling methods now live on `agent.tool_ma
 
 | Method | Description | Usage Example |
 |--------|-------------|---------------|
-| `run(task, img, imgs, correct_answer, streaming_callback, n, messages)` | Run the agent loop, or the autonomous loop when `max_loops="auto"` | `agent.run("Generate a report")` |
+| `run(task, img, imgs, streaming_callback, n, messages)` | Run the agent loop, or the autonomous loop when `max_loops="auto"` | `agent.run("Generate a report")` |
 | `__call__(task, img)` | Alternative way to call `run` | `agent("Generate a report")` |
 | `arun(task, img)` | Async version of `run` | `await agent.arun("Task")` |
 | `run_stream(task, img)` | Sync streaming generator over `run` | `for t in agent.run_stream("Task"): ...` |
@@ -2241,7 +2236,7 @@ Set `SWARMS_TELEMETRY_ON` to `false`, `0`, `no`, `off`, `disable`, or `disabled`
 
 ## New features and parameters
 
-Every constructor parameter, including the MCP, reasoning, memory, tool, and marketplace options, is documented under [Initialization](#initialization). Per-call options such as `imgs`, `correct_answer`, and `streaming_callback` are under [run](#run).
+Every constructor parameter, including the MCP, reasoning, memory, tool, and marketplace options, is documented under [Initialization](#initialization). Per-call options such as `imgs`, `streaming_callback`, and `messages` are under [run](#run).
 
 ## Best Practices
 
